@@ -1,0 +1,29 @@
+body {
+  background: url(https://cdn.pixabay.com/photo/2022/05/31/00/56/sky-7232494_960_720.jpg);
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  /* background-repeat: 이미지 반복, background-size: 전체화면으로 */
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+  /* 
+  display: flex;는 같은 div영역안에 있는 아이템(태그)들을 세로가 아닌 가로정렬로 바꾼다
+   flex-direction: column; 세로 정렬로 바꾸기 위해 
+  justify-content: center; 가로 가운데 정렬
+  align-items: center; 세로 가운데 정렬
+ */
+}
+
+.weather-box {
+  border: 2px solid white;
+  padding: 50px;
+  border-radius: 30px;
+  background-color: lightgray;
+}
