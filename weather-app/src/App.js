@@ -12,6 +12,8 @@ import WeatherButton from "./component/WeatherButton";
 //6. 데이터를 들고오는 동안 로딩 스피너가 돈다
 
 function App() {
+  const [weather, setWeather] = useState(null);
+
   const getCurrentLocation = () => {
     //여기서 현재 위치 기반 날씨를 보여줄 것임
     //그러기 위해 현재 위치를 가져올것이다
@@ -28,7 +30,7 @@ function App() {
 
   const getWeatherByCurrentLocation = async (lat, lon) => {
     //다이나믹한 value는 ${}를 사용
-    let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=7da855e131bffe46cfdf99679fd7bebd`;
+    let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=7da855e131bffe46cfdf99679fd7bebd&units=metric`;
 
     //await 기다리다  fetch하는 것을 뭘 fetch하냐 url을, 이 url에 데이터를 가져와서 fetch할때까지 기다리고, 그 값을 response에 넣는다는 뜻
     //await함수를 쓰고싶으면 async함수여야 한다, 비동기적으로 처리하려고
@@ -37,7 +39,7 @@ function App() {
 
     //위의 reponse를 통해 json을 추출, 대부분 api는 json. json을 추출해야 데이터를 볼 수 있다
     let data = await response.json();
-    console.log("data", data);
+    setWeather(data);
   };
 
   useEffect(() => {
@@ -46,7 +48,7 @@ function App() {
   return (
     <div>
       <div className="container">
-        <WeatherBox />
+        <WeatherBox weather={weather} />
         <WeatherButton />
       </div>
     </div>
