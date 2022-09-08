@@ -3,6 +3,7 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import WeatherBox from "./component/WeatherBox";
 import WeatherButton from "./component/WeatherButton";
+import ClipLoader from "react-spinners/ClipLoader";
 
 //1. 앱이 실행되자마자 현재 위치 기반의 날씨가 보인다
 //2. 날씨 정보에는 도시, 섭씨, 화씨, 날씨 상태정보가 들어간다
@@ -15,6 +16,7 @@ function App() {
   const [weather, setWeather] = useState(null);
   const cities = ["seoul", "tokyo", "hongkong", "new york", "paris", "madrid"];
   const [city, setCity] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const getCurrentLocation = () => {
     //여기서 현재 위치 기반 날씨를 보여줄 것임
@@ -34,6 +36,7 @@ function App() {
     //다이나믹한 value는 ${}를 사용
     let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=7da855e131bffe46cfdf99679fd7bebd&units=metric`;
 
+    setLoading(true);
     //await 기다리다  fetch하는 것을 뭘 fetch하냐 url을, 이 url에 데이터를 가져와서 fetch할때까지 기다리고, 그 값을 response에 넣는다는 뜻
     //await함수를 쓰고싶으면 async함수여야 한다, 비동기적으로 처리하려고
     //기다리는것 -> 비동기방식
@@ -42,13 +45,16 @@ function App() {
     //위의 reponse를 통해 json을 추출, 대부분 api는 json. json을 추출해야 데이터를 볼 수 있다
     let data = await response.json();
     setWeather(data);
+    setLoading(false);
   };
 
   const getWeatherByCity = async () => {
     let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=7da855e131bffe46cfdf99679fd7bebd&units=metric`;
+    setLoading(true);
     let response = await fetch(url);
     let data = await response.json();
     setWeather(data);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -61,10 +67,16 @@ function App() {
 
   return (
     <div>
-      <div className="container">
-        <WeatherBox weather={weather} />
-        <WeatherButton cities={cities} setCity={setCity} />
-      </div>
+      {loading ? (
+        <div className="container">
+          <ClipLoader color="#f88c6b" loading={loading} size={150} />
+        </div>
+      ) : (
+        <div className="container">
+          <WeatherBox weather={weather} />
+          <WeatherButton cities={cities} setCity={setCity} />
+        </div>
+      )}
     </div>
   );
 }
