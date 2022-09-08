@@ -6,7 +6,7 @@ const WeatherBox = ({ weather }) => {
       <div>{weather?.name}</div>
       {/* <div>{weather&&weather.name}</div> */}
       <h2>
-        {weather?.main.temp}/{weather && (weather.main.temp * 9) / 5 + 32}
+        {weather?.main.temp}C/{weather?.main.temp * 1.8 + 32}F
       </h2>
       <h3>{weather?.weather[0].description}</h3>
     </div>
